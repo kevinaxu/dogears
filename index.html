@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Tesseract Example</title>
+
+        <script src="https://unpkg.com/tesseract.js@v2.0.0-alpha.13/dist/tesseract.min.js"></script>
+    </head>
+    <body>
+        <input type="text" id="url" placeholder="Image URL"/>
+        <input type="button" id="go_button" value="Run"/>
+        <div id="ocr_results"> </div>
+        <div id="ocr_status"> </div>
+
+        <script type="text/javascript">
+            const worker = new Tesseract.TesseractWorker();
+            console.log("worker", worker);
+
+            document.getElementById("go_button")
+                .addEventListener("click", function(e) {
+                    var url = document.getElementById("url").value;
+                    console.log("url", url);
+                    runOCR(url);
+                });
+
+            function runOCR(url) {
+                console.log("runOCR() worker", worker);
+                worker.recognize(url)
+                    .progress(function(result) {
+                        document.getElementById("ocr_status")
+                            .innerText = result["status"] + " (" +
+                            (result["progress"] * 100) + "%)";
+                    })
+                    .then(function(result) {
+                        console.log("result:", result);
+                    });
+            }
+        </script>
+    </body>
+</html>
