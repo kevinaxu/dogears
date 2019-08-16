@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dogear Quotes</title>
+
+    <link rel="stylesheet" type="text/css" href="tailwind.min.css">
+    <script src="https://unpkg.com/tesseract.js@v2.0.0-alpha.13/dist/tesseract.min.js"></script>
+</header>
+
+<body class="bg-gray-100 font-sans text-lg m-4">
+
+    <div class="header-container max-w-2xl px-8 pt-8 pb-1 mx-auto rounded-t-lg bg-green-100">
+        <h1 class="font-sans text-4xl mb-8 text-gray-600">Dogears</h1>
+    </div>
+
+    <!-- Add a new List item -->
+    <div class="input-container max-w-2xl px-8 pb-10 pt-2 mx-auto bg-green-100">
+        <input type="text" id="url" placeholder="Upload an Image"/>
+        <input type="button" id="go_button" value="Run"/>
+
+        <div id="ocr_results"> </div>
+        <div id="ocr_status"> </div>
+
+        <!--form class="w-full">
+            <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
+                <input id="list-input" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Feed the doggie">
+                <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button"
+                                                                                                                                                                onclick="todoList.addListItemUI()">
+                    Add
+                </button>
+            </div>
+            </form-->
+    </div>
+
+
+    <script type="text/javascript">
+        const worker = new Tesseract.TesseractWorker();
+        console.log("worker", worker);
+
+        document.getElementById("go_button")
+            .addEventListener("click", function(e) {
+                var url = document.getElementById("url").value;
+                console.log("url", url);
+                runOCR(url);
+            });
+
+        function runOCR(url) {
+            console.log("runOCR() worker", worker);
+            worker.recognize(url)
+                .progress(function(result) {
+                    document.getElementById("ocr_status")
+                        .innerText = result["status"] + " (" +
+                        (result["progress"] * 100) + "%)";
+                })
+                .then(function(result) {
+                    console.log("result:", result);
+                });
+        }
+    </script>
+</body>
+
+</html>
