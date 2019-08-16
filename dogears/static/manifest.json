@@ -1,0 +1,15 @@
+{
+  "name": "dogears",
+  "short_name": "dogears",
+  "icons": [
+    {
+      "src": "/static/img/icons/android-chrome-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#4DBA87"
+}
